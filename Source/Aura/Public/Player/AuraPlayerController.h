@@ -30,7 +30,6 @@ protected:
 
 	virtual void SetupInputComponent() override;
 
-
 private:
 
 	void Move(const FInputActionValue& InputActionValue);
@@ -43,6 +42,6 @@ private:
 	UPROPERTY(EditAnywhere, Category = "Input")
 	TObjectPtr<UInputAction> MoveAction;
 
-	ITargetInterface* LastActor;
-	ITargetInterface* ThisActor;
+	TObjectPtr<ITargetInterface> LastActor;
+	TObjectPtr<ITargetInterface> ThisActor;
 };
