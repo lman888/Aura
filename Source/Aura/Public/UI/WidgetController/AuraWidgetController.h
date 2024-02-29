@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "UObject/NoExportTypes.h"
+#include "AbilitySystemComponent.h"
 #include "AuraWidgetController.generated.h"
 
 class UAbilitySystemComponent;
