@@ -24,3 +24,7 @@ void AAuroCharacterBase::BeginPlay()
 	Super::BeginPlay();
 	
 }
+
+void AAuroCharacterBase::InitAbilityActorInfo()
+{
+}
