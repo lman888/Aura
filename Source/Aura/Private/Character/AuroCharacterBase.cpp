@@ -2,6 +2,7 @@
 
 
 #include "Character/AuroCharacterBase.h"
+#include "AbilitySystemComponent.h"
 
 AAuroCharacterBase::AAuroCharacterBase()
 {
@@ -27,4 +28,19 @@ void AAuroCharacterBase::BeginPlay()
 
 void AAuroCharacterBase::InitAbilityActorInfo()
 {
+}
+
+void AAuroCharacterBase::ApplyEffectToSelf(TSubclassOf<UGameplayEffect> GameplayEffectClass, float Level) const
+{
+	check(IsValid(GetAbilitySystemComponent()));
+	check(GameplayEffectClass);
+	const FGameplayEffectContextHandle Context = GetAbilitySystemComponent()->MakeEffectContext();
+	const FGameplayEffectSpecHandle SpecHandle = GetAbilitySystemComponent()->MakeOutgoingSpec(GameplayEffectClass, Level, Context);
+	GetAbilitySystemComponent()->ApplyGameplayEffectSpecToTarget(*SpecHandle.Data.Get(), GetAbilitySystemComponent());
+}
+
+void AAuroCharacterBase::InitializeDefaultAttributes() const
+{
+	ApplyEffectToSelf(DefaultPrimaryAttributes, 1.f);
+	ApplyEffectToSelf(DefaultSecondaryAttributes, 1.f);
 }
