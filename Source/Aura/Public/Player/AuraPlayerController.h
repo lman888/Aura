@@ -13,6 +13,8 @@ struct FInputActionValue;
 class ITargetInterface;
 class UAuraInputConfig;
 struct FGameplayTag;
+class UAuraAbilitySystemComponent;
+class USplineComponent;
 
 /**
  * 
@@ -30,7 +32,6 @@ public:
 
 protected:
 	virtual void BeginPlay() override;
-
 	virtual void SetupInputComponent() override;
 
 private:
@@ -38,6 +39,8 @@ private:
 	void Move(const FInputActionValue& InputActionValue);
 
 	void CursorTrace();
+
+	void AutoRun();
 
 	UPROPERTY(EditAnywhere, Category="Input")
 	TObjectPtr<UInputMappingContext> AuraContext;
@@ -54,4 +57,23 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, Category="Input")
 	TObjectPtr<UAuraInputConfig> InputConfig;
+
+	UPROPERTY()
+	TObjectPtr<UAuraAbilitySystemComponent> AuraAbilitySystemComponent;
+
+	UAuraAbilitySystemComponent* GetASC();
+
+	FVector CachedDestination = FVector::Zero();
+	float FollowTime = 0.0f;
+	float ShortPressedThreshhold = 0.5f;
+	bool bAutoRunning = false;
+	bool bIsTargeting = false;
+
+	UPROPERTY(EditDefaultsOnly)
+	float AutoRunAcceptanceRadius = 50.f;
+
+	UPROPERTY(VisibleAnywhere)
+	TObjectPtr<USplineComponent> Spline;
+
+	FHitResult CursorHit;
 };
