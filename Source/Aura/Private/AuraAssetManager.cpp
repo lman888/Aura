@@ -18,4 +18,7 @@ void UAuraAssetManager::StartInitialLoading()
 	Super::StartInitialLoading();
 
 	FAuraGameplayTags::InitializeNativeGameplayTags();
+
+	//Called Automatically in Unreal Engine 5.3+
+	//UAbilitySystemGlobals::Get().InitGlobalData();
 }
