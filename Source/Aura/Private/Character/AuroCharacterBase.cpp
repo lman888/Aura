@@ -31,8 +31,7 @@ UAbilitySystemComponent* AAuroCharacterBase::GetAbilitySystemComponent() const
 // Called when the game starts or when spawned
 void AAuroCharacterBase::BeginPlay()
 {
-	Super::BeginPlay();
-	
+	Super::BeginPlay();	
 }
 
 void AAuroCharacterBase::InitAbilityActorInfo()
