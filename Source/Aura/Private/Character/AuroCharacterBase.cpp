@@ -33,6 +33,28 @@ UAnimMontage* AAuroCharacterBase::GetHitReactMontage_Implementation()
 	return HitReactMontage;
 }
 
+void AAuroCharacterBase::Die()
+{
+	Weapon->DetachFromComponent(FDetachmentTransformRules(EDetachmentRule::KeepWorld, true));
+	MulticastHandleDeath();
+}
+
+void AAuroCharacterBase::MulticastHandleDeath_Implementation()
+{
+	Weapon->SetSimulatePhysics(true);
+	Weapon->SetEnableGravity(true);
+	Weapon->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
+
+	GetMesh()->SetSimulatePhysics(true);
+	GetMesh()->SetEnableGravity(true);
+	GetMesh()->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
+	GetMesh()->SetCollisionResponseToChannel(ECC_WorldStatic, ECR_Block);
+
+	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+
+	Dissolve();
+}
+
 // Called when the game starts or when spawned
 void AAuroCharacterBase::BeginPlay()
 {
@@ -75,4 +97,21 @@ void AAuroCharacterBase::AddCharacterAbilities()
 	UAuraAbilitySystemComponent* AuraASC = CastChecked<UAuraAbilitySystemComponent>(AbilitySystemComponent);
 
 	AuraASC->AddCharacterAbilities(StartupAbilities);
+}
+
+void AAuroCharacterBase::Dissolve()
+{
+	if (IsValid(DissolveMaterialInstace))
+	{
+		UMaterialInstanceDynamic* DynamicMatIsnt = UMaterialInstanceDynamic::Create(DissolveMaterialInstace, this);
+		GetMesh()->SetMaterial(0, DynamicMatIsnt);
+		StartDissolveTimeline(DynamicMatIsnt);
+	}
+
+	if (IsValid(WeaponDissolveMaterialInstace))
+	{
+		UMaterialInstanceDynamic* DynamicMatIsnt = UMaterialInstanceDynamic::Create(WeaponDissolveMaterialInstace, this);
+		Weapon->SetMaterial(0, DynamicMatIsnt);
+		StartWeaponDissolveTimeline(DynamicMatIsnt);
+	}
 }
