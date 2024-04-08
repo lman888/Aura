@@ -6,6 +6,8 @@
 #include "AIController.h"
 #include "AuraAIController.generated.h"
 
+class UBehaviorTreeComponent;
+
 /**
  * 
  */
@@ -14,4 +16,11 @@ class AURA_API AAuraAIController : public AAIController
 {
 	GENERATED_BODY()
 	
+public:
+
+	AAuraAIController();
+
+protected:
+
+	TObjectPtr<UBehaviorTreeComponent> BehaviourTreeComponent;
 };
