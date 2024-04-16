@@ -30,6 +30,10 @@ public:
 
 	virtual void Die() override;
 
+	virtual FVector GetCombatSocketLocation_Implementation() override;
+	virtual bool IsDead_Implementation() const;
+	virtual AActor* GetAvatar_Implementation();
+	
 	UFUNCTION(NetMultiCast, Reliable)
 	virtual void MulticastHandleDeath();
 
@@ -44,8 +48,8 @@ protected:
 	UPROPERTY(EditAnywhere, Category="Combat")
 	FName WeaponTipSocketName;
 
-	virtual FVector GetCombatSocketLocation() override;
-
+	bool bDead = false;
+	
 	UPROPERTY()
 	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
 

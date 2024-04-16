@@ -253,7 +253,7 @@ void UAuraAttributeSet::SetEffectProperties(const FGameplayEffectModCallbackData
 		{
 			if (const APawn* Pawn = Cast<APawn>(Props.SourceAvatarActor))
 			{
-				Props.SourceController = Cast<APlayerController>(Pawn->GetController());
+				Props.SourceController = Pawn->GetController();
 			}
 		}
 
@@ -277,6 +277,12 @@ void UAuraAttributeSet::ShowFloatingText(const FEffectProperties& Props, float D
 	if (Props.SourceCharacter != Props.TargetCharacter)
 	{
 		if (AAuraPlayerController* PC = Cast<AAuraPlayerController>(Props.SourceCharacter->Controller))
+		{
+			PC->ShowDamageNumber(Damage, Props.TargetCharacter, bBlockedHit, bCriticalHit);
+			return;
+		}
+		
+		if (AAuraPlayerController* PC = Cast<AAuraPlayerController>(Props.TargetCharacter->Controller))
 		{
 			PC->ShowDamageNumber(Damage, Props.TargetCharacter, bBlockedHit, bCriticalHit);
 		}

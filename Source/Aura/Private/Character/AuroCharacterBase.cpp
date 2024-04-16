@@ -53,6 +53,7 @@ void AAuroCharacterBase::MulticastHandleDeath_Implementation()
 	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 
 	Dissolve();
+	bDead = true;
 }
 
 // Called when the game starts or when spawned
@@ -65,10 +66,20 @@ void AAuroCharacterBase::InitAbilityActorInfo()
 {
 }
 
-FVector AAuroCharacterBase::GetCombatSocketLocation()
+FVector AAuroCharacterBase::GetCombatSocketLocation_Implementation()
 {
 	check(Weapon);
 	return Weapon->GetSocketLocation(WeaponTipSocketName);
+}
+
+bool AAuroCharacterBase::IsDead_Implementation() const
+{
+	return bDead;
+}
+
+AActor* AAuroCharacterBase::GetAvatar_Implementation()
+{
+	return this;
 }
 
 void AAuroCharacterBase::ApplyEffectToSelf(TSubclassOf<UGameplayEffect> GameplayEffectClass, float Level) const
